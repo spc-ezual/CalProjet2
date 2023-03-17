@@ -77,6 +77,15 @@ object Interpreter {
    *  TRAITEMENT DES EXPRESSIONS DU LANGAGE WHILE
    */
 
+   def EqualsVal(v1: Value, v2: Value): Boolean = {
+  (v1, v2) match {
+    case (NlValue, NlValue) => true
+    case (CstValue(n1), CstValue(n2)) => n1 == n2
+    case (ConsValue(a1, b1), ConsValue(a2, b2)) => EqualsVal(a1, a2) && EqualsVal(b1, b2)
+    case _ => false
+  }
+}
+
   /**
    * @param expression : un AST décrivant une expression du langage WHILE
    * @return la valeur de l'expression
@@ -84,7 +93,10 @@ object Interpreter {
   // TODO TP2
   def interpreterExpr(expression: Expression, mem: Memory): Value = {
     expression match {
-      case Eq(arg1, arg2) => NlValue
+      case Eq(arg1, arg2) => {
+        if(EqualsVal(interpreterExpr(arg1,mem),interpreterExpr(arg2,mem)))ConsValue(NlValue,NlValue)
+        else NlValue 
+      }
       case Tl(arg) => {arg match {
         case Cons(arg1, arg2) => interpreterExpr(arg2,mem)
         case _ => {interpreterExpr(arg,mem) match {

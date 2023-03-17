@@ -83,7 +83,27 @@ object Interpreter {
    */
   // TODO TP2
   def interpreterExpr(expression: Expression, mem: Memory): Value = {
-    ???
+    expression match {
+      case Eq(arg1, arg2) => NlValue
+      case Tl(arg) => {arg match {
+        case Cons(arg1, arg2) => interpreterExpr(arg2,mem)
+        case _ => {interpreterExpr(arg,mem) match {
+          case ConsValue(arg1, arg2) => arg2
+          case _ => NlValue
+        }}
+      }}
+      case Cst(name) => CstValue(name)
+      case Hd(arg) => {arg match {
+        case Cons(arg1, arg2) => interpreterExpr(arg1,mem)
+        case _ => {interpreterExpr(arg,mem) match {
+          case ConsValue(arg1, arg2) => arg1
+          case _ => NlValue
+        }}
+      }}
+      case Nl => NlValue
+      case VarExp(name) => lookUp(new Var(name),mem)
+      case Cons(arg1, arg2) => ConsValue(interpreterExpr(arg1,mem),interpreterExpr(arg2,mem))
+    }
   }
 
   /**
@@ -95,7 +115,13 @@ object Interpreter {
    * @return l'AST décrivant l'expression de cette valeur
    */
   // TODO TP2
-  def valueToExpression(value: Value): Expression = ???
+  def valueToExpression(value: Value): Expression = {
+    value match {
+      case ConsValue(arg1, arg2) => Cons(valueToExpression(arg1),valueToExpression(arg2))
+      case CstValue(name) => Cst(name)
+      case NlValue => Nl
+    }
+  }
   
 
   /**

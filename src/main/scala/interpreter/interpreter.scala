@@ -1,5 +1,7 @@
 package interpreter
 
+import scala.collection.immutable
+
 /*
  * VEUILLEZ INSCRIRE CI-DESSOUS VOTRE NOM ET VOTRE PRENOM :
  * 
@@ -41,8 +43,20 @@ object Interpreter {
    * @return m(v), c'est-à-dire la valeur de la variable v dans la mémoire mem,
    * la valeur par défaut si la variable v n'est pas présente dans la mémoire mem
    */
-  // TODO TP2
-  def lookUp(v: Variable, mem: Memory): Value = ???
+  def lookUp(v: Variable, mem: Memory): Value = {
+    mem match {
+      case head :: next => if(EqualsVar(head._1,v))head._2 else lookUp(v,next)
+      case Nil => NlValue
+    }
+  }
+
+  def EqualsVar(v1:Variable,v2:Variable):Boolean={
+    v1 match {
+      case Var(nameV1) => v2 match {
+        case Var(nameV2) => nameV1.equals(nameV2)
+      }
+    }
+  }
 
   /**
    * @param v : une variable
@@ -50,8 +64,14 @@ object Interpreter {
    * @param mem : une mémoire
    * @return la mémoire modifiée par l'affectation [v->d]
    */
-  // TODO TP2
-  def assign(v: Variable, d: Value, mem: Memory): Memory = ???
+  def assign(v: Variable, d: Value, mem: Memory): Memory = {
+    mem match {
+      case head :: next => if(EqualsVar(head._1,v)){
+        (v,d)::next
+      }else head::assign(v,d,next)
+      case Nil => (v,d)::Nil
+    }
+  }
 
   /**
    *  TRAITEMENT DES EXPRESSIONS DU LANGAGE WHILE
@@ -62,7 +82,9 @@ object Interpreter {
    * @return la valeur de l'expression
    */
   // TODO TP2
-  def interpreterExpr(expression: Expression, mem: Memory): Value = ???
+  def interpreterExpr(expression: Expression, mem: Memory): Value = {
+    ???
+  }
 
   /**
    * la fonction interpreterExpr ci-dessus calcule la valeur associée à une expression

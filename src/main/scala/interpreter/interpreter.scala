@@ -114,7 +114,6 @@ object Interpreter {
    * @param value : une valeur du langage WHILE
    * @return l'AST décrivant l'expression de cette valeur
    */
-  // TODO TP2
   def valueToExpression(value: Value): Expression = {
     value match {
       case ConsValue(arg1, arg2) => Cons(valueToExpression(arg1),valueToExpression(arg2))

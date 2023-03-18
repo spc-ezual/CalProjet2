@@ -202,7 +202,15 @@ object Interpreter {
    * @return une mémoire associant chaque valeur à la variable d'entrée correspondant
    */
   // TODO TP2
-  def interpreterMemorySet(vars: List[Variable], vals: List[Value]): Memory = ???
+  def interpreterMemorySet(vars: List[Variable], vals: List[Value]): Memory = {
+    if (vars.length != vals.length) {
+      throw ExceptionListesDeLongueursDifferentes
+    } else if (vars.isEmpty || vals.isEmpty) {
+      throw ExceptionListeVide
+    }  else {
+      vars.zip(vals)
+    }
+  }
   
 
   /**
@@ -211,7 +219,17 @@ object Interpreter {
    * @return la liste des valeurs des variables de sortie
    */
   // TODO TP2
-  def interpreterMemoryGet(vars: List[Variable], memory: Memory): List[Value] = ???
+  def interpreterMemoryGet(vars: List[Variable], memory: Memory): List[Value] = {
+    if(vars.isEmpty) throw  ExceptionListeVide
+  vars.map { v =>
+    memory.find(_._1 == v) match {
+      case Some((_, value)) => value
+      case None => throw new Exception(s"Variable $v not found in memory")
+    }
+  }
+}
+
+
 
   /**
    * @param program : un AST décrivant un programme du langage WHILE
@@ -219,7 +237,16 @@ object Interpreter {
    * @return la liste des valeurs des variables de sortie
    */
   // TODO TP2
-  def interpreter(program: Program, vals: List[Value]): List[Value] = ???
+def interpreter(program: Program, vals: List[Value]): List[Value] = {
+
+  program match {
+    case Progr(in, body, out) => {val inputVars = in
+  val inputMemory = interpreterMemorySet(inputVars, vals)
+  val outputMemory = interpreterCommands(body, inputMemory)
+  val outputVars = out
+  interpreterMemoryGet(outputVars, outputMemory)
+    }}
+  }
   
   
   

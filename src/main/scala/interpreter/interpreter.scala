@@ -5,9 +5,9 @@ import scala.collection.immutable
 /*
  * VEUILLEZ INSCRIRE CI-DESSOUS VOTRE NOM ET VOTRE PRENOM :
  * 
- * ETUDIANT 1 :
+ * ETUDIANT 1 : FOIN Marcus   
  * 
- * ETUDIANT 2 :
+ * ETUDIANT 2 : Baudy Simon
  * 
  */
 
@@ -162,7 +162,16 @@ object Interpreter {
         }
         mem
       }
-      case For(count, body) => ???
+      case For(count, body) => {
+        val compteur = comt(interpreterExpr(count,memory));
+        var mem = memory;
+        for(i <- 1 to compteur){
+            for(cmd <- body){
+              mem = interpreterCommand(cmd,mem)
+          }
+        }
+        mem
+      }
 
       case If(condition, then_commands, else_commands) => {
         if (interpreterExpr(condition, memory) != NlValue) {
@@ -174,6 +183,13 @@ object Interpreter {
     }
   }
 
+  def comt(count: Value): Int={
+    count match {
+      case ConsValue(_,tail)=> 1+comt(tail)
+      case NlValue => 0
+      case CstValue(_) => 1
+    }
+  }
   
   
   /**

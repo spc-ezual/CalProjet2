@@ -206,8 +206,8 @@ class TestsCommands {
           List(
             Set(Var("Y"), Cons(Nl, VarExp("Y"))))),
         memory1)
-    // println("expected : " + expected)
-    // println("was      : " + result)
+    println("expected : " + expected)
+    println("was      : " + result)
     assertTrue(expected.forall(a => result.contains(a)) && result.forall(a => expected.contains(a)) && expected.length == result.length)
   }
 
@@ -243,8 +243,8 @@ class TestsCommands {
           List(
             Set(Var("Y"), Cons(Nl, VarExp("Y"))))),
         memory1)
-    // println("expected : " + expected)
-    // println("was      : " + result)
+    println("expected : " + expected)
+    println("was      : " + result)
     assertTrue(expected.forall(a => result.contains(a)) && result.forall(a => expected.contains(a)) && expected.length == result.length)
   }
 
@@ -267,8 +267,8 @@ class TestsCommands {
               List(
                 Set(Var("Z"), Cons(Nl, VarExp("Z"))))))),
         memory1)
-    // println("expected : " + expected)
-    // println("was      : " + result)
+    println("expected : " + expected)
+    println("was      : " + result)
     assertTrue(expected.forall(a => result.contains(a)) && result.forall(a => expected.contains(a)) && expected.length == result.length)
   }
 
@@ -304,8 +304,8 @@ class TestsCommands {
               List(
                 Set(Var("X"), Cons(Nl, VarExp("X"))))))),
         memory1)
-    // println("expected : " + expected)
-    // println("was      : " + result)
+    println("expected : " + expected)
+    println("was      : " + result)
     assertTrue(expected.forall(a => result.contains(a)) && result.forall(a => expected.contains(a)) && result.length == expected.length)
   }
 
